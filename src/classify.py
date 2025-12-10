@@ -2,7 +2,6 @@
 import joblib
 import pandas as pd
 from scipy.sparse import hstack
-import matplotlib.pyplot as plt
 
 
 # Loading our transaction-classifier model.
@@ -48,22 +47,13 @@ uncertain_data = data[data["Confidence"] <= threshold]
 for desc in uncertain_data["Transaction Description"].unique():
     # Displaying the transaction description to help the user decide.
     print("Transaction description: {}.".format(desc))
-    # Asking for the user to correct the predicted category, if necessary.
-    print("Press enter to keep the predicted category. Else, type the desired category.")
+    # Asking for the user to correct the predicted category.
+    print("Please enter the correct category.")
     category = input("Category:")
     if category != "":
         data.loc[data["Transaction Description"] == desc, "Predicted Category"] = category.upper()
-
-
-# Visualising the spending as a bar chart for each category of transactions.
-spending = data.groupby("Predicted Category")["Amount"].sum().sort_values()
-# Removing un-interesting categories specific to my data.
-spending = spending.drop(["FAMILY", "IGNORE"])
-spending.plot(kind='bar')
-plt.title("Money Credited Per Category")
-plt.xlabel("Category")
-plt.ylabel("Money Credited into the Account (£)")
-plt.show()
+        # The corrected categories are guaranteed to be accurate so correcting the confidence levels to 1.
+        data.loc[data["Transaction Description"] == desc, "Confidence"] = 1
 
 
 # Saving the categorised transaction data as a .csv file.
