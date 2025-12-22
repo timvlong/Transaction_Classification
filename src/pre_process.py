@@ -1,4 +1,4 @@
-# Cleaning the .csv files, removing unnecessary fields.
+# Cleaning the .csv files, removing unnecessary fields and checking for missing values.
 # Splitting the data into training and testing data and outputting them as .csv files.
 # Standardising the numerical data.
 import pandas as pd
@@ -20,6 +20,10 @@ clean_data["Amount"] = clean_data["Credit Amount"] + clean_data["Debit Amount"]
 # Dropping the now-redundant fields.
 clean_data = clean_data.drop(columns=["Credit Amount", "Debit Amount"])
 
+
+# Deciding not to impute as the model will be very sensitive to the features, so won't risk guesses.
+# Dropping samples with any missing values.
+clean_data.dropna()
 
 # The transaction type is a string of very limited options, eg DEB, FPO, FPI, DD.
 # Therefore, we shall convert these n options for this feature to n-1 binary features / dummy variables.
