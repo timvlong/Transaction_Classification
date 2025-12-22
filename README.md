@@ -12,6 +12,8 @@ The file 'classify.py' uses the saved transaction-classification model to catego
 
 The file 'visualise.py' provides the user with a range of options to visualise their categorised transaction data. This includes a bar chart of each category, a pie chart displaying the outgoing transactions and a pie chart displaying the incoming transactions. Furthermore, a summary of these plots may be outputted as a pdf.
 
+The file 'plot_roc.py' allows the user to plot a ROC curve for their inputted category. This means one can determine the model's effectiveness at identifying this category versus a random guess.
+
 
 ## User Guide
 
