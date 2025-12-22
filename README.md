@@ -28,4 +28,4 @@ Finally, all necessary libraries and their versions are contained within the 're
 
 ## Example Output
 
-![Example Output](Spending_Summary_2025-10-01_2025-11-28.png)
+![Example Output](examples/Spending_Summary_2025-10-01_2025-11-28.png)
