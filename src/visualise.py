@@ -63,7 +63,7 @@ def plot_out_pie(cat_sum, start, end):
     explode = [0.02] * len(out_cat_sum)
     # Visualising the outgoing payments as a pie chart for each transaction category.
     out_cat_sum.plot(kind='pie', autopct='%1.0f%%', explode=explode)
-    plt.title("Categorised Outgoing Transactionsfrom {} - {}.".format(start, end), weight='bold')
+    plt.title("Categorised Outgoing Transactions from {} - {}.".format(start, end), weight='bold')
     plt.ylabel("")
     plt.tight_layout()
     plt.show()

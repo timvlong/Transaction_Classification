@@ -20,10 +20,9 @@ X_text_train = vectoriser.fit_transform(train_data["Transaction Description"])
 X_text_test = vectoriser.transform(test_data["Transaction Description"])
 
 
-# The numerical input data (the amount credited to the account) is already suitable.
-# Re-shaping this array to ensure a suitable matrix is produced from the combination of these numerical and text features.
-X_num_train = train_data["Amount"].values.reshape(-1, 1)
-X_num_test = test_data["Amount"].values.reshape(-1, 1)
+# The numerical input data (the amount credited to the account and the type of transaction) is already suitable.
+X_num_train = (train_data.drop(columns=["Transaction Description", "Category"])).values
+X_num_test = (test_data.drop(columns=["Transaction Description", "Category"])).values
 
 
 # Combining these numerical and text features into one feature, suitable for inputting into the LogisticRegression model.
@@ -49,7 +48,7 @@ clf.fit(X_train, y_train)
 # Testing the model by predicting categories for the test transaction descriptions.
 y_predicted = clf.predict(X_test)
 # Printing the accuracy of the model and the classification report.
-print("The accuracy of the model is: {}%.".format(100*accuracy_score(y_test, y_predicted)))
+print("The accuracy of the model is: {:.2f}%.".format(100*accuracy_score(y_test, y_predicted)))
 print(classification_report(y_test, y_predicted))
 
 

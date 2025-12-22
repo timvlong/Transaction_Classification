@@ -21,8 +21,7 @@ X_text_test = vectoriser.transform(test_data["Transaction Description"])
 
 
 # The numerical input data (the amount credited to the account) is already suitable.
-# Re-shaping this array to ensure a suitable matrix is produced from the combination of these numerical and text features.
-X_num_test = test_data["Amount"].values.reshape(-1, 1)
+X_num_test = (test_data.drop(columns=["Transaction Description", "Category"])).values
 
 
 # Combining these numerical and text features into one feature, suitable for inputting into the LogisticRegression model.
