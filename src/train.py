@@ -4,6 +4,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 from scipy.sparse import hstack
+import matplotlib.pyplot as plt
+import numpy as np
 import joblib
 
 
@@ -50,6 +52,24 @@ y_predicted = clf.predict(X_test)
 # Printing the accuracy of the model and the classification report.
 print("The accuracy of the model is: {:.2f}%.".format(100*accuracy_score(y_test, y_predicted)))
 print(classification_report(y_test, y_predicted))
+
+
+# Investigating the importance of each feature in categorising the bank transactions.
+# Since the features are normalised, the magnitude of the coefficients in this logistic regression should be proportional to the feature importance.
+importances = np.abs(clf.coef_[0])
+# Collecting an array of feature names.
+num_features = (train_data.drop(columns=["Transaction Description", "Category"])).columns
+text_features = vectoriser.get_feature_names_out()
+feature_names = np.concatenate([text_features, num_features])
+# We have many features (as text is split into tokens each represented by a binary feature) so will only show the 20 most important.
+indices = np.argsort(importances)[-20:]
+plt.barh(feature_names[indices], importances[indices])
+plt.title(f"The {len(indices)} Most Important Features")
+plt.ylabel("Feature")
+plt.xlabel("Importance")
+plt.grid(linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
 
 
 # Saving the transaction-classifier model for use on real data.
