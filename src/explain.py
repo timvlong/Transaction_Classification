@@ -123,6 +123,7 @@ def plot_coefs(n_features = 10):
     plt.show()
 
 
+# Creating the function that will visualise the feature importances via their SHAP values in a bar chart.
 def plot_shap_vals(category, n_features = 10):
     """
     Plots a bar chart displaying the absolute SHAP value of each feature.
@@ -157,6 +158,8 @@ def plot_shap_vals(category, n_features = 10):
     plt.tight_layout()
     plt.show()
 
+
+# Creating the function that will visualise feature importance via their SHAP values across all samples.
 def plot_beeswarm(category, n_features = 10):
     """
     Plots a beeswarm graph displaying the SHAP value of each feature and each sample in the testset.
@@ -186,6 +189,34 @@ def plot_beeswarm(category, n_features = 10):
     plt.show()
 
 
+# Creating the function that will visualise the effect of the 'Amount' feature in predicting the inputted category.
+def plot_dependence(category):
+    """
+    Plots the partial dependence curve for the inputted category.
+    This shows the model output (probability of predicting the category) for varying values of the 'Amount' feature.
+
+    Parameters
+    ----------
+    category (string): Category name.
+    """
+    # Raising an error if the inputted category is not recognised.
+    assert category in labels, "The inputted category is not one that the transactions are labelled by."
+    # Finding the index that the inputted category belongs to.
+    idx = np.where(labels == category)[0][0]
+    # Using the model-agnostic SHAP Kernel Explainer.
+    # Using 10 clusters of the training dataset as a summary for efficiency.
+    explainer = shap.KernelExplainer(clf.predict_proba, shap.kmeans(X_train, 10))
+    # Extracting the SHAP values from the explainer.
+    shap_values = explainer.shap_values(X_test)
+    # Using built-in shap method to produce a partial dependence plot of model prediction against the 'Amount' feature.
+    # Only showing the 'Amount' feature as this is very explainable and continuous-valued.
+    # Using a lambda function to ensure we are predicting probabilities for just one class/category.
+    shap.partial_dependence_plot("Amount", lambda X: clf.predict_proba(X)[:, idx], X_test.toarray(), show=False, feature_names=feature_names)
+    plt.title(f"Effect of 'Amount' Feature in Predicting the '{category}' Category")
+    plt.tight_layout()
+    plt.show()
+
+
 # Allowing the user to decide how they wish to visualise their data.
 while True:
     print("\n Please choose from the following visualisations of your model. \n")
@@ -194,6 +225,7 @@ while True:
     print("2 - Bar Chart of Feature Coefficients. \n")
     print("3 - Bar Chart of SHAP Values. \n")
     print("4 - Beeswarm Plot of SHAP Values. \n")
+    print("5 - Partial Dependence Plot of Model Prediction Against 'Amount' Feature. \n")
     choice = input()
     print("\n")
     if choice == '0':
@@ -220,5 +252,9 @@ while True:
         print("Please input the number of features you wish to investigate. \n")
         n_features = int(input())
         plot_beeswarm(category, n_features=n_features)
+    elif choice == '5':
+        print("Please input the category you wish to investigate. \n")
+        category = input().upper()
+        plot_dependence(category)
     else:
-        print("\n Please enter an integer between 0 and 4.")
+        print("\n Please enter an integer between 0 and 5.")
