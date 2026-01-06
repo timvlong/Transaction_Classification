@@ -12,7 +12,7 @@ The file 'classify.py' uses the saved transaction-classification model to catego
 
 The file 'visualise.py' provides the user with a range of options to visualise their categorised transaction data. This includes a bar chart of each category, a pie chart displaying the outgoing transactions and a pie chart displaying the incoming transactions. Furthermore, a summary of these plots may be outputted as a pdf.
 
-The file 'explain.py' investigates the machine learning model created and aims to explain / provide a deeper understanding into it's predictions. The user is able to plot a ROC curve to determine the model's effectiveness at identifying a certain category in comparison to a random guess. Furthemore, the importance of each feature is explored via the coefficients of the features in the logistic regression and the **SHAP values** of each feature. These are shown within a bar chart and a **beeswarm plot**.
+The file 'explain.py' investigates the machine learning model created and aims to explain / provide a deeper understanding into it's predictions. The user is able to plot a **ROC curve** to determine the model's effectiveness at identifying a certain category in comparison to a random guess. Furthemore, the importance of each feature is explored via the coefficients of the features in the logistic regression and the **SHAP values** of each feature. These are shown within a bar chart and a **beeswarm plot**. Finally, the user also has an option for a **partial dependence plot** displaying the model output against the 'Amount' feature.
 
 
 ## User Guide
